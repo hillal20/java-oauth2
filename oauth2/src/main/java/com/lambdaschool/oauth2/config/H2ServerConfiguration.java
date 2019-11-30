@@ -1,15 +1,19 @@
-package com.lambdaschool.oauth2.config;
 
+/// this file  is to connect the database with  intellij boiler plate code
+
+package com.lambdaschool.oauth2.config;
 import org.h2.tools.Server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 import java.sql.SQLException;
 
-// @Configuration
 // taken from https://techdev.io/en/developer-blog/querying-the-embedded-h2-database-of-a-spring-boot-application
 // necessary for using the database tool built into intellij
+
+@Configuration
 public class H2ServerConfiguration
 {
 

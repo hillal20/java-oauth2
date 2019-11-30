@@ -8,8 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "roles")
-public class Role extends Auditable
-{
+public class Role extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long roleid;
@@ -23,8 +22,7 @@ public class Role extends Auditable
     @JsonIgnoreProperties("role")
     private List<UserRoles> userroles = new ArrayList<>();
 
-    public Role()
-    {
+    public Role() {
     }
 
     public Role(String name)
@@ -42,13 +40,10 @@ public class Role extends Auditable
         this.roleid = roleid;
     }
 
-    public String getName()
-    {
-        if (name == null)
-        {
+    public String getName() {
+        if (name == null) {
             return null;
-        } else
-        {
+        } else {
             return name.toUpperCase();
         }
     }

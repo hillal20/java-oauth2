@@ -15,50 +15,42 @@ import java.util.List;
 
 @Entity
 @Table(name = "users")
-public class User extends Auditable
-{
+public class User extends Auditable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long userid;
 
-    @Column(nullable = false,
-            unique = true)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)// ask the db to let it write only for safety
     private String password;
 
-    @Column(nullable = false,
-            unique = true)
-    @Email
+    @Column(nullable = false, unique = true)
+    @Email // check to see if the email is valid or not
     private String primaryemail;
 
-    @OneToMany(mappedBy = "user",
-               cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("user") // we dont delete rows in the join tables therefor we dont put the orphanRemoval
     private List<UserRoles> userroles = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user",
-               cascade = CascadeType.ALL,
-               orphanRemoval = true)
+    @OneToMany(mappedBy = "user", // one user has many roles cascade = CascadeType.ALL,
+               orphanRemoval = true) // if it finds a row not connected to anything it will remove it
     @JsonIgnoreProperties("user")
     private List<Useremail> useremails = new ArrayList<>();
 
-    public User()
-    {
+    public User() {
     }
 
-    public User(String username,
-                String password,
-                String primaryemail,
-                List<UserRoles> userRoles)
-    {
-        setUsername(username);
-        setPassword(password);
+    public User(String username, String password, String primaryemail, List<UserRoles> userRoles) {
+
+        this.setUsername(username);
+        this.setPassword(password);
         this.primaryemail = primaryemail;
-        for (UserRoles ur : userRoles)
-        {
+
+        for (UserRoles ur : userRoles) {
             ur.setUser(this);
         }
         this.userroles = userRoles;
@@ -74,13 +66,10 @@ public class User extends Auditable
         this.userid = userid;
     }
 
-    public String getUsername()
-    {
-        if (username == null) // this is possible when updating a user
-        {
+    public String getUsername() {
+        if (username == null) { // this is possible when updating a user
             return null;
-        } else
-        {
+        } else {
             return username.toLowerCase();
         }
     }
@@ -90,13 +79,10 @@ public class User extends Auditable
         this.username = username.toLowerCase();
     }
 
-    public String getPrimaryemail()
-    {
-        if (primaryemail == null) // this is possible when updating a user
-        {
+    public String getPrimaryemail() {
+        if (primaryemail == null){  // this is possible when updating a user
             return null;
-        } else
-        {
+        } else {
             return primaryemail.toLowerCase();
         }
     }
@@ -111,8 +97,7 @@ public class User extends Auditable
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         this.password = passwordEncoder.encode(password);
     }
@@ -143,12 +128,10 @@ public class User extends Auditable
     }
 
     @JsonIgnore
-    public List<SimpleGrantedAuthority> getAuthority()
-    {
+    public List<SimpleGrantedAuthority> getAuthority() {
         List<SimpleGrantedAuthority> rtnList = new ArrayList<>();
 
-        for (UserRoles r : this.userroles)
-        {
+        for (UserRoles r : this.userroles) {
             String myRole = "ROLE_" + r.getRole()
                                        .getName()
                                        .toUpperCase();

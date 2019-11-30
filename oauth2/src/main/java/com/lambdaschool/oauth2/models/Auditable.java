@@ -13,10 +13,9 @@ import java.util.Date;
 
 import static javax.persistence.TemporalType.TIMESTAMP;
 
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-abstract class Auditable
-{
+@MappedSuperclass // we let spring to know about it, it contain the fields that we need to appear in the db
+@EntityListeners(AuditingEntityListener.class) // let spring listen to what inside the super class to enforce it
+abstract class Auditable {
     @CreatedBy
     protected String createdBy;
 

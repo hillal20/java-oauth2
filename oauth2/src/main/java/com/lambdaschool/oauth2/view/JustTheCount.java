@@ -1,6 +1,5 @@
 package com.lambdaschool.oauth2.view;
 
-public interface JustTheCount
-{
+public interface JustTheCount {
     int getCount();
 }

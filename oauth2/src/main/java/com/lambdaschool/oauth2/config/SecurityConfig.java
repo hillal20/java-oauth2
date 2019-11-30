@@ -18,25 +18,21 @@ import javax.annotation.Resource;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter
-{
+@EnableGlobalMethodSecurity(prePostEnabled = true) // allow to add  @PreAuthorize("hasAuthority('ROLE_ADMIN')") above any endpoint in the controller
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Resource(name = "userService")
     private UserDetailsService userDetailsService;
 
     @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception
-    {
+    public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
     @Autowired
-    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception
-    {
-        auth.userDetailsService(userDetailsService)
-            .passwordEncoder(encoder());
+    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
     }
 
     @Bean

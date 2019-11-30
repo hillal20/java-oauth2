@@ -35,28 +35,17 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     private PasswordEncoder encoder;
 
     @Override
-    public void configure(ClientDetailsServiceConfigurer configurer) throws Exception
-    {
+    public void configure(ClientDetailsServiceConfigurer configurer) throws Exception {
         //                .authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, REFRESH_TOKEN, IMPLICIT)
 
-        configurer.inMemory()
-                  .withClient(CLIENT_ID)
-                  .secret(encoder.encode(CLIENT_SECRET))
-                  .authorizedGrantTypes(GRANT_TYPE_PASSWORD,
-                                        AUTHORIZATION_CODE,
-                                        IMPLICIT)
-                  .scopes(SCOPE_READ,
-                          SCOPE_WRITE,
-                          TRUST)
+        configurer.inMemory().withClient(CLIENT_ID).secret(encoder.encode(CLIENT_SECRET)).authorizedGrantTypes(GRANT_TYPE_PASSWORD, AUTHORIZATION_CODE, IMPLICIT)
+                  .scopes(SCOPE_READ, SCOPE_WRITE, TRUST)
                   .accessTokenValiditySeconds(ACCESS_TOKEN_VALIDITY_SECONDS);
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception
-    {
-        endpoints.tokenStore(tokenStore)
-                 .authenticationManager(authenticationManager);
-        endpoints.pathMapping("/oauth/token",
-                              "/login");
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        endpoints.tokenStore(tokenStore).authenticationManager(authenticationManager);
+        endpoints.pathMapping("/oauth/token", "/login");
     }
 }
